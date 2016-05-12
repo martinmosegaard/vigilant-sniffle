@@ -6,9 +6,7 @@ job('commit') {
   }
 
   steps {
-    shell('''\
-    echo This is the commit job.
-    '''.stripIndent())
+    gradle('compileJava')
   }
 
   publishers {
