@@ -48,3 +48,15 @@ buildPipelineView('Pipeline') {
   showPipelineDefinitionHeader()
   refreshFrequency(60)
 }
+
+// Jenkinsfile pipeline:
+workflowJob('pipeline') {
+  definition {
+    cpsScm {
+      scm {
+        github('martinmosegaard/vigilant-sniffle')
+      }
+      scriptPath('Jenkinsfile')
+    }
+  }
+}
