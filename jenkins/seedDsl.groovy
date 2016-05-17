@@ -6,7 +6,7 @@ job('commit') {
   }
 
   steps {
-    gradle('compileJava')
+    gradle('jar')
   }
 
   publishers {

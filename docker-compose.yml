@@ -4,11 +4,19 @@ services:
     build: jenkins
     ports:
       - "8080:8080"
+    networks:
+      - cdnet
     environment:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+    links:
+      - artifactory
   artifactory:
-    image: jfrog-docker-reg2.bintray.io/jfrog/artifactory-registry
+    image: jfrog-docker-reg2.bintray.io/jfrog/artifactory-oss
     ports:
       - "80:80"
       - "8081:8081"
       - "443:443"
+    networks:
+      - cdnet
+networks:
+  cdnet:
