@@ -2,6 +2,10 @@ apply plugin: 'java'
 
 version = '1.0.0'
 
+repositories {
+  jcenter()
+}
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.14'
     testCompile 'junit:junit:4.12'
@@ -9,7 +13,6 @@ dependencies {
 
 buildscript {
     repositories {
-      jcenter()
       maven {
           url 'http://artifactory:8081/artifactory/plugins-release'
           credentials {
