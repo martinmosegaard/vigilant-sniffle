@@ -9,6 +9,7 @@ dependencies {
 
 buildscript {
     repositories {
+      jcenter()
       maven {
           url 'http://artifactory:8081/artifactory/plugins-release'
           credentials {
