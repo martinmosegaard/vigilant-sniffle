@@ -1,12 +1,79 @@
+apply plugin: 'application'
+apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
-version = '1.0.0'
+mainClassName = 'Library'
 
 repositories {
   jcenter()
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.14'
-    testCompile 'junit:junit:4.12'
+  compile 'org.slf4j:slf4j-api:1.7.14'
+  testCompile 'junit:junit:4.12'
+}
+
+buildscript {
+  repositories {
+    maven {
+      url 'http://localhost:8081/artifactory/plugins-release'
+      credentials {
+        username = "${artifactory_user}"
+        password = "${artifactory_password}"
+      }
+    }
+  }
+  dependencies {
+    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+  }
+}
+
+ext.versionFile = 'src/main/c/version.h'
+
+// version.h looks like this:
+// VERSION=1.0.3
+def getVersionFromHeader() {
+  String versionLine = file(versionFile).getText('UTF-8')
+  String versionFromFile = versionLine.substring(versionLine.indexOf('=') + 1).trim()
+  versionFromFile
+}
+
+task createZip(type:Zip) {
+  from (versionFile)
+}
+
+group = 'dk.martinmosegaard'
+
+// task: gradle artifactoryPublish
+publishing {
+  publications {
+    versionHeader(MavenPublication) {
+      version getVersionFromHeader()
+      artifact createZip
+    }
+  }
+}
+
+artifactory {
+  contextUrl = "${artifactory_contextUrl}"
+  publish {
+    repository {
+      repoKey = 'libs-release-local'
+      username = "${artifactory_user}"
+      password = "${artifactory_password}"
+      maven = true
+    }
+    defaults {
+      publications ('versionHeader')
+    }
+  }
+  resolve {
+    repository {
+      repoKey = 'libs-release'
+        username = "${artifactory_user}"
+        password = "${artifactory_password}"
+        maven = true
+    }
+  }
 }

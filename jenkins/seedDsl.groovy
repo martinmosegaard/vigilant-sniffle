@@ -6,6 +6,7 @@ job('commit') {
   }
 
   // Initial Gradle-Artifactory Build Environment
+  // artifactoryName is dynamically generated, needs to be looked up
   configure {
     it / buildWrappers / 'org.jfrog.hudson.gradle.ArtifactoryGradleConfigurator' {
       deployMaven 'false'
