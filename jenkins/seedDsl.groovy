@@ -5,39 +5,38 @@ job('commit') {
     github('martinmosegaard/vigilant-sniffle')
   }
 
-  // Initial Gradle-Artifactory Build Environment
-  // artifactoryName is dynamically generated, needs to be looked up
+  steps {
+    gradle('jar')
+  }
+
+  // Artifactory configuration
   configure {
     it / buildWrappers / 'org.jfrog.hudson.gradle.ArtifactoryGradleConfigurator' {
-      deployMaven 'false'
+      deployMaven 'true'
       deployIvy 'false'
       deployBuildInfo 'true'
-      includeEnvVars 'false'
-      skipInjectInitScript 'true'
-      allowPromotionOfNonStagedBuilds 'true'
       deployArtifacts 'true'
+      allowPromotionOfNonStagedBuilds 'true'
+
+      // Repository to resolve from
       resolverDetails {
         artifactoryName('artifactory')
         artifactoryUrl('http://artifactory:8081/artifactory')
-        deployReleaseRepository('libs-release-local') {
-          keyFromSelect('libs-release-local')
-        }
-        resolveReleaseRepository('libs-release') {
+        resolveReleaseRepository {
           keyFromSelect('libs-release')
         }
       }
+      // Repository to deploy to.
       details {
         artifactoryName('artifactory')
         artifactoryUrl('http://artifactory:8081/artifactory')
-        deployReleaseRepository('libs-release-local') {
+        deployReleaseRepository {
           keyFromSelect('libs-release-local')
         }
       }
-    }
-  }
 
-  steps {
-    gradle('jar')
+      artifactPattern '[organisation]/[module]/[revision]/[artifact]-[revision].$BUILD_NUMBER(-[classifier]).[ext]'
+    }
   }
 
   publishers {
