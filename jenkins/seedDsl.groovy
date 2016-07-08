@@ -78,7 +78,7 @@ buildPipelineView('Pipeline') {
 }
 
 // Jenkinsfile pipeline:
-workflowJob('pipeline') {
+pipelineJob('pipeline') {
   definition {
     cpsScm {
       scm {
