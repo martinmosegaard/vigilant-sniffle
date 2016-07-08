@@ -16,6 +16,6 @@ USER jenkins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
-# Prepare for creation of seed job:
-# The job is created by running a custom script in /usr/share/jenkins/init.groovy.d
+# Add Jenkins configuration
 COPY createSeedJob.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY artifactory.groovy /usr/share/jenkins/ref/init.groovy.d/
