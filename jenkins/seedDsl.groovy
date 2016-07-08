@@ -17,6 +17,7 @@ job('commit') {
       deployBuildInfo 'true'
       deployArtifacts 'true'
       allowPromotionOfNonStagedBuilds 'true'
+      skipInjectInitScript 'true'
 
       // Repository to resolve from
       resolverDetails {
