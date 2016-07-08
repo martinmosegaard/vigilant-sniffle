@@ -13,21 +13,24 @@ job('commit') {
       deployIvy 'false'
       deployBuildInfo 'true'
       includeEnvVars 'false'
-      details {
-		artifactoryName('919959214@1463491731683')
-		artifactoryUrl('http://artifactory:8081/artifactory')
-		deployReleaseRepository('libs-snapshot-local') {
-          keyFromSelect('libs-snapshot-local')
+      skipInjectInitScript 'true'
+      allowPromotionOfNonStagedBuilds 'true'
+      deployArtifacts 'true'
+      resolverDetails {
+        artifactoryName('artifactory')
+        artifactoryUrl('http://artifactory:8081/artifactory')
+        deployReleaseRepository('libs-release-local') {
+          keyFromSelect('libs-release-local')
+        }
+        resolveReleaseRepository('libs-release') {
+          keyFromSelect('libs-release')
         }
       }
-      resolverDetails {
-		artifactoryName('919959214@1463491731683')
-		artifactoryUrl('http://artifactory:8081/artifactory')
-		deployReleaseRepository('libs-snapshot-local') {
-          keyFromSelect('libs-snapshot-local')
-        }
-		resolveReleaseRepository('libs-release') {
-          keyFromSelect('libs-release')
+      details {
+        artifactoryName('artifactory')
+        artifactoryUrl('http://artifactory:8081/artifactory')
+        deployReleaseRepository('libs-release-local') {
+          keyFromSelect('libs-release-local')
         }
       }
     }
